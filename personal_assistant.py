@@ -25,16 +25,36 @@ class Note:
         self.title = title
         self.content = content
         self.timestamp = timestamp
-    def create_note(self):
-        pass
+        
+class NoteManager:
+    def __init__(self):
+        self.notes = []
+    def create_note(self, title, content):
+        note_id = len(self.notes) + 1
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        new_note = Note(note_id, title, content, timestamp)
+        
+        
     def show_notes(self):
         pass
         
-class NoteManager:
-    pass
-        
 def menu_notes():
-    pass
+    notes_manager = NoteManager()
+    print('Управление заметками: \n 1. Создать заметку \n 2. Просмотреть заметки \n 3. Редактировать заметку \n 4. Удалить заметку \n 5. Вернуться в главное меню')
+    choice = input()
+    if choice == '1':
+        title = input('Введите заголовок заметки: ')
+        content = input('Введите содержание заметки: ')
+        notes_manager.create_note(title, content)
+        print('Заметка создана успешно!')
+    elif choice == '2':
+        notes_manager.show_notes()
+    elif choice == '3':
+        pass
+    elif choice == '4':
+        pass
+    elif choice == '5':
+        main_menu()
 
 def menu_tasks():
     pass
