@@ -91,7 +91,8 @@ class NoteManager:
         else:
             note.title = new_title
             note.content = new_content
-            print('Заметка успешно отредактирована')
+            self.save_notes()
+            print('Заметка хуй отредактирована')
         menu_notes()
     def remove_note(self, note_id):
         note = next((n for n in self.notes if n.note_id == note_id), None)
@@ -123,8 +124,7 @@ def menu_notes():
         choice = input('Введите ID заметки для редактирования: ')
         title = input('Введите новое название:')
         content = input('Введите новое содержание:')
-        notes_manager.edit_note(int(choice), title, content)            
-        print('Заметка успешно отредактирована')
+        notes_manager.edit_note(int(choice), title, content)    
         menu_notes()
     elif choice == '4':
         note_id = input('Введите ID заметки для удаления: ')    
