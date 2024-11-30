@@ -18,7 +18,7 @@ def main_menu():
     elif choise == '5':
         menu_calculator()
     elif choise == '6':
-        exit
+        exit    
     else:
         print('Введите корректное значение:')
         main_menu()
@@ -93,8 +93,16 @@ class NoteManager:
             note.content = new_content
             print('Заметка успешно отредактирована')
         menu_notes()
-    def remove_note(self):
-        pass
+    def remove_note(self, note_id):
+        note = next((n for n in self.notes if n.note_id == note_id), None)
+        if note is None:
+            print('Заметка не найдена')
+        else:
+            self.notes.remove(note)
+            self.save_notes()
+            print('Заметка успешно удалена')
+        menu_notes()
+    
     def save_notes_csv(self):
         pass
     def import_notes_csv(self):
@@ -113,17 +121,19 @@ def menu_notes():
         notes_manager.show_notes()
     elif choice == '3':
         choice = input('Введите ID заметки для редактирования: ')
-        try:
-            notes_manager.edit_note(int(choice))
+        title = input('Введите новое название:')
+        content = input('Введите новое содержание:')
+        notes_manager.edit_note(int(choice), title, content)            
+        print('Заметка успешно отредактирована')
+        menu_notes()
+    elif choice == '4':
+        note_id = input('Введите ID заметки для удаления: ')    
+        try:    
+            notes_manager.remove_note(int(note_id))
         except:
             print('Введите корректный номер заметки')
-        else:
-            title = input('Введите новое название:')
-            content = input('Введите новое содержание:')
-            notes_manager.edit_note(int(choice), title, content)
-            print('Заметка успешно отредактирована')
-    elif choice == '4':
-        pass
+        menu_notes()
+            
     elif choice == '5':
         notes_manager.save_notes_csv()
     elif choice == '6':
