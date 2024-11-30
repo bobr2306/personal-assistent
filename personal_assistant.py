@@ -5,6 +5,10 @@ import os
 import csv
 import notes
 from notes import *
+from tasks import *
+from contacts import *
+from financial_records import *
+from calculator import *
 
 def main_menu():    
     print('Добро пожаловать в Персональный помощник!)')
@@ -27,22 +31,5 @@ def main_menu():
             print('Введите корректное значение:')
             main_menu()
     
-
-
-
-def menu_tasks():
-    pass
-
-def menu_contacts():
-    pass
-
-def menu_financial_records():
-    pass
-
-def menu_calculator():
-    pass
-
-
-
 if __name__ == '__main__':
     main_menu()
