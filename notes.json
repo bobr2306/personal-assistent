@@ -1,8 +1,20 @@
 [
   {
     "note_id": 1,
-    "title": "Another test",
-    "content": "я устал",
-    "timestamp": "2024-11-30 16:23:09"
+    "title": "Python",
+    "content": "HW11 very bad)",
+    "timestamp": "2024-11-30 18:08:18"
+  },
+  {
+    "note_id": 2,
+    "title": "Goal",
+    "content": "Nice meme",
+    "timestamp": "2024-11-30 18:08:57"
+  },
+  {
+    "note_id": 3,
+    "title": "GOOAL test",
+    "content": " help me",
+    "timestamp": "2024-11-30 18:09:48"
   }
 ]
