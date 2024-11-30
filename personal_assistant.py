@@ -29,7 +29,6 @@ def main_menu():
             exit()
         else:
             print('Введите корректное значение:')
-            main_menu()
     
 if __name__ == '__main__':
     main_menu()

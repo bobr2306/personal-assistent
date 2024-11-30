@@ -6,15 +6,15 @@
     "timestamp": "2024-11-30 18:08:18"
   },
   {
-    "note_id": 2,
-    "title": "Goal",
-    "content": "Nice meme",
-    "timestamp": "2024-11-30 18:08:57"
-  },
-  {
     "note_id": 3,
     "title": "GOOAL test",
     "content": " help me",
     "timestamp": "2024-11-30 18:09:48"
+  },
+  {
+    "note_id": 4,
+    "title": "Cat",
+    "content": "I like cats",
+    "timestamp": "2024-11-30 22:11:53"
   }
 ]

@@ -32,15 +32,17 @@ class TaskManager:
         for task in self.tasks:
             print(f"Задача {task.task_id}: {task.title} \n {task.description} {task.done}, Приоритет: {task.priority}, Due Date: {task.due_date}")
 
-    def edit_task(self, task_id, title, description):
-        for task in self.tasks:
-            if task.task_id == task_id:
-                task.title = title
-                task.description = description
-                self.save_tasks()
-                return
-        print("Задача не найдена")
-
+    def edit_task(self, task_id, title, description, priority):
+        task = next(([t for t in self.tasks if t.task_id == task_id]), None)
+        if task is None:
+            print("Задача не найдена")
+        else:
+            task.title = title
+            task.description = description
+            task.priority = priority
+            print('Задача отредактирована!')
+            self.save_tasks()
+        
     def remove_task(self, task_id):
         self.tasks = [task for task in self.tasks if task.task_id != task_id]
         self.save_tasks()
@@ -69,7 +71,8 @@ class TaskManager:
                 self.save_tasks()
             print('Данные успешно импортированы!')
             menu_tasks()
-    
+    def done_task(self, task_id):
+        pass
     
 tasks_manager = TaskManager()    
 
@@ -79,28 +82,26 @@ def menu_tasks():
     if choice == '1':
         title = input('Введите заголовок задачи: ')
         description = input('Введите описание задачи: ')
-        priority = input('Введите приоритет задачи (Высокий, Средний, Низкий)')
+        priority = input('Введите приоритет задачи (Высокий, Средний, Низкий): ')
         due_date = input('Введите дедлайн (дд-мм-гггг) - необязательно')        
         tasks_manager.create_task(title, description, priority, due_date)
-    
+        menu_tasks()
+        
     elif choice == '2':
         tasks_manager.show_tasks()
-    
+        menu_tasks()
+        
     elif choice == '3':
         choice = input('Введите ID задачи для редактирования: ')
         title = input('Введите новое название: ')
         description = input('Введите новое описание: ')
-        try:
-            tasks_manager.edit_task(int(choice), title, description)
-        except:
-            print("Введите корректный номер задачи.")
+        priority = input('Введите новый приоритет задачи (Высокий, Средний, Низкий): ')
+        tasks_manager.edit_task(int(choice), title, description, priority)
+        menu_tasks()
     
     elif choice == '4':
         task_id = input('Введите ID задачи для удаления: ')    
-        try:    
-            tasks_manager.remove_task(int(task_id))
-        except:
-            print('Введите корректный номер задачи.')
+        tasks_manager.remove_task(int(task_id))
         menu_tasks()
     
     elif choice == '5':

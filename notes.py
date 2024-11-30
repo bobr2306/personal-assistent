@@ -27,7 +27,6 @@ class NoteManager:
         self.notes.append(new_note)
         self.save_notes()
         print('Заметка создана успешно!')
-        menu_notes()
 
     def show_note(self, note_id):
         note = next((n for n in self.notes if n.note_id == note_id), None)
@@ -39,7 +38,6 @@ class NoteManager:
             print(f"Заголовок: {note.title}")
             print(f"Содержание: {note.content}")
             print(f"Дата создания: {note.timestamp}")
-        menu_notes()
 
     def show_notes(self):
         print('Ваши заметки:')
@@ -49,7 +47,7 @@ class NoteManager:
             print(note.content)
         choice = input('Введите ID заметки для просмотра или 0 для возврата в меню: ')
         if choice == '0':
-            menu_notes()
+            exit
         else:
             self.show_note(int(choice))
             
@@ -62,7 +60,6 @@ class NoteManager:
             note.content = new_content
             self.save_notes()
             print('Заметка отредактирована')
-        menu_notes()
         
     def remove_note(self, note_id):
         note = next((n for n in self.notes if n.note_id == note_id), None)
@@ -72,21 +69,18 @@ class NoteManager:
             self.notes.remove(note)
             self.save_notes()
             print('Заметка успешно удалена')
-        menu_notes()
     
     def save_notes_csv(self):
         with open('notes.csv', 'w', encoding='utf-8') as f:
             writer = csv.DictWriter(f, delimiter=',', fieldnames=['note_id', 'title', 'content', 'timestamp'])
             for note in self.notes:
                 writer.writerow(note.__dict__)
-        print('Заметки успешно экспортированы в CSV!')
-        menu_notes()            
+        print('Заметки успешно экспортированы в CSV!')      
             
     def import_notes_csv(self):
         file_name = input('Введите имя CSV-файла: ')
         if not os.path.exists(file_name):
             print("Файл не найден")
-            menu_notes()
         with open(file_name, 'r', encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=',')
             for row in reader:
@@ -98,39 +92,35 @@ class NoteManager:
                 self.notes.append(note)
                 self.save_notes()
             print('Данные успешно импортированы!')
-            menu_notes()
 
 notes_manager = NoteManager()
         
 def menu_notes():
-    print('Управление заметками: \n 1. Создать заметку \n 2. Просмотреть заметки \n 3. Редактировать заметку \n 4. Удалить заметку \n 5. Экспортировать в CSV \n 6. Импортировать заметки из CSV \n 7. Вернуться в главное меню')
-    choice = input('Введите:')
-    if choice == '1':
-        title = input('Введите заголовок заметки: ')
-        content = input('Введите содержание заметки: ')
-        notes_manager.create_note(title, content)
-    elif choice == '2':
-        notes_manager.show_notes()
-    elif choice == '3':
-        choice = input('Введите ID заметки для редактирования: ')
-        title = input('Введите новое название:')
-        content = input('Введите новое содержание:')
-        notes_manager.edit_note(int(choice), title, content)    
-        menu_notes()
-    elif choice == '4':
-        note_id = input('Введите ID заметки для удаления: ')    
-        try:    
-            notes_manager.remove_note(int(note_id))
-        except:
-            print('Введите корректный номер заметки')
-        menu_notes()
-            
-    elif choice == '5':
-        notes_manager.save_notes_csv()
-    elif choice == '6':
-        notes_manager.import_notes_csv()
-    elif choice == '7':
-        exit
-    else:
-        print('Введите корректное значение:')
-        menu_notes()
+    while True:
+        print('Управление заметками: \n 1. Создать заметку \n 2. Просмотреть заметки \n 3. Редактировать заметку \n 4. Удалить заметку \n 5. Экспортировать в CSV \n 6. Импортировать заметки из CSV \n 7. Вернуться в главное меню')
+        choice = input('Введите:')
+        if choice == '1':
+            title = input('Введите заголовок заметки: ')
+            content = input('Введите содержание заметки: ')
+            notes_manager.create_note(title, content)
+        elif choice == '2':
+            notes_manager.show_notes()
+        elif choice == '3':
+            choice = input('Введите ID заметки для редактирования: ')
+            title = input('Введите новое название:')
+            content = input('Введите новое содержание:')
+            notes_manager.edit_note(int(choice), title, content)    
+        elif choice == '4':
+            note_id = input('Введите ID заметки для удаления: ')    
+            try:    
+                notes_manager.remove_note(int(note_id))
+            except:
+                print('Введите корректный номер заметки')                
+        elif choice == '5':
+            notes_manager.save_notes_csv()
+        elif choice == '6':
+            notes_manager.import_notes_csv()
+        elif choice == '7':
+            break
+        else:
+            print('Введите корректное значение:')
