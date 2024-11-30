@@ -21,7 +21,7 @@ class NoteManager:
         self.notes = [Note(**n) for n in data]
         
     def create_note(self, title, content):
-        note_id = len(self.notes) + 1
+        note_id = max([note.note_id for note in self.notes], default=0) + 1
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         new_note = Note(note_id, title, content, timestamp)
         self.notes.append(new_note)
@@ -49,8 +49,10 @@ class NoteManager:
         if choice == '0':
             exit
         else:
-            self.show_note(int(choice))
-            
+            try:
+                self.show_note(int(choice))
+            except:
+                print('Введите корректный номер заметки')
     def edit_note(self, note_id, new_title, new_content):
         note = next((n for n in self.notes if n.note_id == note_id), None)
         if note is None:
