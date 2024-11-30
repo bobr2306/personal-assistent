@@ -52,6 +52,7 @@ class NoteManager:
     def load_notes(self):
         data = load_data('notes.json', [])
         self.notes = [Note(**n) for n in data]
+        
     def create_note(self, title, content):
         note_id = len(self.notes) + 1
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -84,6 +85,7 @@ class NoteManager:
             menu_notes()
         else:
             self.show_note(int(choice))
+            
     def edit_note(self, note_id, new_title, new_content):
         note = next((n for n in self.notes if n.note_id == note_id), None)
         if note is None:
@@ -92,8 +94,9 @@ class NoteManager:
             note.title = new_title
             note.content = new_content
             self.save_notes()
-            print('Заметка хуй отредактирована')
+            print('Заметка отредактирована')
         menu_notes()
+        
     def remove_note(self, note_id):
         note = next((n for n in self.notes if n.note_id == note_id), None)
         if note is None:
@@ -105,14 +108,35 @@ class NoteManager:
         menu_notes()
     
     def save_notes_csv(self):
-        pass
+        with open('notes.csv', 'w', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, delimiter=',', fieldnames=['note_id', 'title', 'content', 'timestamp'])
+            for note in self.notes:
+                writer.writerow(note.__dict__)
+        print('Заметки успешно экспортированы в CSV!')
+        menu_notes()            
+            
     def import_notes_csv(self):
-        pass
+        file_name = input('Введите имя CSV-файла: ')
+        if not os.path.exists(file_name):
+            print("Файл не найден")
+            menu_notes()
+        with open(file_name, 'r', encoding='utf-8') as f:
+            reader = csv.reader(f, delimiter=',')
+            for row in reader:
+                note_id = len(self.notes) + 1
+                title = row[1]
+                content = row[2]                
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                note = Note(note_id, title, content, timestamp)
+                self.notes.append(note)
+                self.save_notes()
+            print('Данные успешно импортированы!')
+            menu_notes()
 
 notes_manager = NoteManager()
         
 def menu_notes():
-    print('Управление заметками: \n 1. Создать заметку \n 2. Просмотреть заметки \n 3. Редактировать заметку \n 4. Удалить заметку \n 5. Экспортировать в CSV \n 6. Импортировать заметки из CSV \n 7.Вернуться в главное меню')
+    print('Управление заметками: \n 1. Создать заметку \n 2. Просмотреть заметки \n 3. Редактировать заметку \n 4. Удалить заметку \n 5. Экспортировать в CSV \n 6. Импортировать заметки из CSV \n 7. Вернуться в главное меню')
     choice = input('Введите:')
     if choice == '1':
         title = input('Введите заголовок заметки: ')
