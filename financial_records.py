@@ -9,5 +9,10 @@ class Finance:
         self. date = date
         self.description = description
 
+class FinancialManager:
+    def __init__(self):
+        pass
+    
+
 def menu_financial_records():
     pass

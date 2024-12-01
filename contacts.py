@@ -59,16 +59,20 @@ class ContactManager:
                 writer.writerow(contact.__dict__)
         print('Контакты успешно экспортированы в CSV файл "contacts.csv"')
         
-    def load_contacts_csv(self, filename):
-        with open(filename, 'r', encoding='utf-8') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                contact_id = int(row['contact_id'])
-                name = row['name']
-                phone = row['phone']
-                email = row['email']
-                self.create_contact(name, phone, email)
-                
+    def load_contacts_csv(self):
+        filename = input('Введите название CSV файла: ')
+        try:
+            with open(filename, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    contact_id = int(row['contact_id'])
+                    name = row['name']
+                    phone = row['phone']
+                    email = row['email']
+                    self.create_contact(name, phone, email)
+        except:
+            print('Ошибка!')
+            
     def search_contact(self, q):
         results = [contact for contact in self.contacts if q in contact.name or q in contact.phone]
         if results:
@@ -92,15 +96,29 @@ def menu_contacts():
         elif choice == '2':
             contacts_manager.show_contacts()
         elif choice == '3':
-            pass
+            choice = input('Введите ID контакта для редактирования: ')
+            name = input('Введите новое имя контакта: ')
+            phone = input('Введите новый номер телефона: ')
+            email = input('Введите новый email: ')
+            try:
+                contact_id = int(choice)
+                contacts_manager.edit_contact(contact_id, name, phone, email)
+            except:
+                print('Некорретные данные')
         elif choice == '4':
-            pass
+            contact_id = input('Введите ID контакта для удаления: ')
+            contact_id = int(contact_id)
+            contacts_manager.remove_contact(contact_id)
         elif choice == '5':
-            pass
+            query = input('Введите имя или номер телефона для поиска: ')
+            contacts_manager.search_contact(query)
         elif choice == '6':
-            pass
+            try:
+                contacts_manager.save_contacts_csv()
+            except:
+                print('Ошибка!')
         elif choice == '7':
-            pass
+            contacts_manager.load_contacts_csv()
         elif choice == '8':
             break
         else:

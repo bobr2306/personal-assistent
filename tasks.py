@@ -22,10 +22,12 @@ class TaskManager:
         data = load_data('tasks.json', [])
         self.tasks = [Task(**t) for t in data]
         
-    def create_task(self, title, description, priority, due_date=None):
+    def create_task(self, title, description, priority, due_date):
         task_id = max([task.task_id for task in self.tasks], default=0) + 1
         task = Task(task_id, title, description, False, priority, due_date)
         self.tasks.append(task)
+        self.save_tasks()
+        print('Задача создана!')
         
     def show_tasks(self):
         print('Ваши задачи: ')
@@ -131,7 +133,7 @@ def menu_tasks():
         
         elif choice == '6':
             tasks_manager.import_tasks_csv()
-        
+
         elif choice == '7':
             break
         

@@ -6,5 +6,13 @@
     "done": true,
     "priority": "Высокий",
     "due_date": ""
+  },
+  {
+    "task_id": 2,
+    "title": "Поспать",
+    "description": "Часов 12",
+    "done": false,
+    "priority": "Средний",
+    "due_date": "01-12-2024"
   }
 ]
