@@ -73,7 +73,7 @@ class NoteManager:
             print('Заметка успешно удалена')
     
     def save_notes_csv(self):
-        with open('notes.csv', 'w', encoding='utf-8') as f:
+        with open('notes.csv', 'w', encoding='utf-8', newline='')  as f:
             writer = csv.DictWriter(f, delimiter=',', fieldnames=['note_id', 'title', 'content', 'timestamp'])
             for note in self.notes:
                 writer.writerow(note.__dict__)
@@ -86,7 +86,7 @@ class NoteManager:
         with open(file_name, 'r', encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=',')
             for row in reader:
-                note_id = len(self.notes) + 1
+                note_id = max([note.note_id for note in self.notes], default=0) + 1
                 title = row[1]
                 content = row[2]                
                 timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

@@ -29,6 +29,7 @@ class ContactManager:
         
     def show_contacts(self):
         print('Список контактов:')
+        self.load_contacts()
         for contact in self.contacts:
             print(f'ID: {contact.contact_id}, Имя: {contact.name}, Телефон: {contact.phone}, Email: {contact.email}')
             
@@ -63,15 +64,14 @@ class ContactManager:
         filename = input('Введите название CSV файла: ')
         try:
             with open(filename, 'r', encoding='utf-8') as f:
-                reader = csv.DictReader(f)
-                for row in reader:
-                    contact_id = int(row['contact_id'])
-                    name = row['name']
-                    phone = row['phone']
-                    email = row['email']
-                    self.create_contact(name, phone, email)
-        except:
-            print('Ошибка!')
+                    reader = csv.reader(f, delimiter=',')
+                    for row in reader:
+                        name = row[1]
+                        phone = row[2]
+                        email = row[3]
+                        self.create_contact(name, phone, email)    
+        except Exception as e:
+            print('Ошибка!', e)
             
     def search_contact(self, q):
         results = [contact for contact in self.contacts if q in contact.name or q in contact.phone]
@@ -86,7 +86,7 @@ contacts_manager = ContactManager()
 
 def menu_contacts():
     while True:
-        print('Управление контактами: \n 1. Добавить контакт \n 2. Посмотреть контакты \n 3. Редактировать контакт \n 4. Удалить контакт \n 5. Найти контакт по имени или номеру телефона \n 6. Экспортировать в CSV \n 7. Импортировать задачи из CSV \n 8. Вернуться в главное меню')
+        print('Управление контактами: \n 1. Добавить контакт \n 2. Посмотреть контакты \n 3. Редактировать контакт \n 4. Удалить контакт \n 5. Найти контакт по имени или номеру телефона \n 6. Экспортировать в CSV \n 7. Импортировать контакты из CSV \n 8. Вернуться в главное меню')
         choice = input('Выберите действие:')
         if choice == '1':
             name = input('Введите имя контакта: ')

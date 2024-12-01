@@ -66,7 +66,7 @@ class TaskManager:
         self.save_tasks()
 
     def save_tasks_csv(self):
-        with open('tasks.csv', 'w', encoding='utf-8') as f:
+        with open('tasks.csv', 'w', encoding='utf-8', newline='') as f:
             fieldnames = ['task_id', 'title', 'description', 'done', 'priority', 'due_date']
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             for task in self.tasks:

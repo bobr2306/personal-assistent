@@ -4,5 +4,11 @@
     "name": "Илья Стельмах",
     "phone": "88005553535",
     "email": "cuc@#mail.com"
+  },
+  {
+    "contact_id": 2,
+    "name": "Иван Галицкий",
+    "phone": "8912345678",
+    "email": "goal@gmail.ru"
   }
 ]
