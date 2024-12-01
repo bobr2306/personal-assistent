@@ -31,6 +31,52 @@ class ContactManager:
         print('Список контактов:')
         for contact in self.contacts:
             print(f'ID: {contact.contact_id}, Имя: {contact.name}, Телефон: {contact.phone}, Email: {contact.email}')
+            
+    def edit_contact(self, contact_id, name, phone, email):
+        contact = next((c for c in self.contacts if c.contact_id == contact_id), None)
+        if contact is None:
+            print('Контакт не найден')
+        else:
+            contact.name = name
+            contact.phone = phone
+            contact.email = email
+            self.save_contacts()
+            print('Контакт успешно изменен')
+            
+    def remove_contact(self, contact_id):
+        try:
+            contact = next(c for c in self.contacts if c.contact_id == contact_id)
+            self.contacts.remove(contact)
+            self.save_contacts()
+            print('Контакт успешно удален')
+        except:
+            print('Контакт не найден')
+    def save_contacts_csv(self):
+        with open('contacts.csv', 'w', encoding='utf-8') as f:
+            fieldnames = ['contact_id', 'name', 'phone', 'email']
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            for contact in self.contacts:
+                writer.writerow(contact.__dict__)
+        print('Контакты успешно экспортированы в CSV файл "contacts.csv"')
+        
+    def load_contacts_csv(self, filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                contact_id = int(row['contact_id'])
+                name = row['name']
+                phone = row['phone']
+                email = row['email']
+                self.create_contact(name, phone, email)
+                
+    def search_contact(self, q):
+        results = [contact for contact in self.contacts if q in contact.name or q in contact.phone]
+        if results:
+            print('Найденные контакты:')
+            for contact in results:
+                print(f'ID: {contact.contact_id}, Имя: {contact.name}, Телефон: {contact.phone}, Email: {contact.email}')
+        else:
+            print('Контакты не найдены')
 
 contacts_manager = ContactManager()
 
